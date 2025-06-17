@@ -50,7 +50,7 @@ export const appContainer = style({
   width: "100vw",
 });
 
-export const boards = style({
+export const board = style({
   display: "flex",
   flexDirection: "row",
   height: "100%",
