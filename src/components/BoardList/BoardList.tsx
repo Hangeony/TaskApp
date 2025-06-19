@@ -67,7 +67,7 @@ const BoardList: FC<TBoardListProps> = ({
   const handleLogOut = () => {
     signOut(auth)
       .then(() => {
-        dispatch(removeUser()); // ✅ 이렇게 수정!
+        dispatch(removeUser());
       })
       .catch((err) => console.error(err));
   };

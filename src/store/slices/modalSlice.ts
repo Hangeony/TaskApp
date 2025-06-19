@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit"; // ✅ 추가
+import type { PayloadAction } from "@reduxjs/toolkit";
 import type { ITask } from "../../types";
 
 type TSetModalDetaAction = {
