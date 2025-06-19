@@ -36,6 +36,15 @@ type TDeleteTaskAction = {
   taskId: string;
 };
 
+type TSortAction = {
+  boardIndex: number;
+  droppableIdStart: string;
+  droppableIdEnd: string;
+  droppableIndexStart: number;
+  droppableIndexEnd: number;
+  draggableId: string;
+};
+
 const initialState: TBoardsState = {
   modalActive: false,
   boardArray: [
@@ -176,6 +185,37 @@ const boardsSlice = createSlice({
           : board
       );
     },
+
+    sort: (state, { payload }: PayloadAction<TSortAction>) => {
+      const board = state.boardArray[payload.boardIndex];
+
+      if (payload.droppableIdStart === payload.droppableIdEnd) {
+        // 같은 리스트 내 이동
+        const list = board.lists.find(
+          (list) => list.listId === payload.droppableIdStart
+        );
+        if (list) {
+          const dragged = list.tasks.splice(payload.droppableIndexStart, 1)[0];
+          list.tasks.splice(payload.droppableIndexEnd, 0, dragged);
+        }
+      } else {
+        // 다른 리스트 간 이동
+        const sourceList = board.lists.find(
+          (list) => list.listId === payload.droppableIdStart
+        );
+        const destList = board.lists.find(
+          (list) => list.listId === payload.droppableIdEnd
+        );
+
+        if (sourceList && destList) {
+          const dragged = sourceList.tasks.splice(
+            payload.droppableIndexStart,
+            1
+          )[0];
+          destList.tasks.splice(payload.droppableIndexEnd, 0, dragged);
+        }
+      }
+    },
   },
 });
 
@@ -189,4 +229,5 @@ export const {
   addList,
   updateTaske,
   deleteTake,
+  sort,
 } = boardsSlice.actions;
